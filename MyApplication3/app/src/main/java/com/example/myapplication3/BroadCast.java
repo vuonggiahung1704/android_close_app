@@ -12,12 +12,10 @@ public class BroadCast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String value = intent.getStringExtra("key");
         if(value != null){
-            Log.d("value",value);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                ((Activity) context).finishAndRemoveTask();
-            } else {
-                ((Activity) context).finish();
-            }
+            Intent i = new Intent();
+            i.setClassName("com.example.myapplication3", "com.example.myapplication3.MainActivity");
+            i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(i);
         }
     }
 }
