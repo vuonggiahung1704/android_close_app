@@ -1,56 +1,106 @@
 package com.example.myapplication2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.myapplication2.model.Result;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    EditText edt1, edt2;
+    private TextView mResponseTv;
+    private APIService mAPIService;
+    private PostRepository apk;
+
+    @Inject
+    private ExecutorService executorService = Executors.newFixedThreadPool(10);;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        edt1 = findViewById(R.id.editTextText1);
-        edt2 = findViewById(R.id.editTextText2);
+        final EditText titleEt = (EditText) findViewById(R.id.et_title);
+        final EditText bodyEt = (EditText) findViewById(R.id.et_body);
+        Button submitBtn = (Button) findViewById(R.id.btn_submit);
+        Button getBtn = (Button) findViewById(R.id.btn_get);
+        mResponseTv = (TextView) findViewById(R.id.tv_response);
 
-        Button button = (Button) findViewById(R.id.btn);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-//                Intent intent = getApplicationContext().getPackageManager().getLaunchIntentForPackage("com.example.myapplication3");
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra("edt",edt1.getText().toString());
-//                startActivity(intent);
-                Intent intent = new Intent("com.example.LOGOUT");
-                intent.putExtra("key", "value");
-                sendBroadcast(intent);
+        mAPIService = ApiUtils.getAPIService();
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getPost("1");
+            }
+        });
+
+        getBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getPost("2");
             }
         });
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
+    public void getPost(String type) {
 //        try {
-//            Intent intent = getIntent();
-//            String text = intent.getStringExtra("text");
 //
-//        }catch (Exception ignore){
-//            Log.d("error - message" ,"error");
+//        }catch (Exception e){
+//            Log.d("getPost",e.toString());
 //        }
-
-        // Lấy dữ liệu từ intent mới
-        Bundle extras = intent.getExtras();
-        if (extras != null) {
-            String data = extras.getString("text");
-            edt2.setText(data);
-            // Xử lý dữ liệu nhận được
+        MutableLiveData<Result<Post>> handle;
+        if(type.equals("1")){
+            handle = handlePost();
+        }else{
+            handle = handlePost2();
         }
+
+        handle.observe(this,result ->{
+            try {
+                Post post = ((Result.Success<Post>) result).mData;
+                Log.d("getPost", String.valueOf(post.getId()) +  post.getTitle());
+            }catch (Exception exc){
+                Log.d("getPost",exc.toString());
+            }
+        });
+    }
+
+    public MutableLiveData<Result<Post>> handlePost() {
+        apk = new PostRepository(executorService);
+
+        MutableLiveData<Result<Post>> observalbleResult = new MutableLiveData<>();
+        apk.GetPost(result -> {
+           if(result instanceof Result.Success){
+                observalbleResult.postValue(result);
+           }
+        });
+        return observalbleResult;
+    }
+
+    public MutableLiveData<Result<Post>> handlePost2() {
+        apk = new PostRepository(executorService);
+
+        MutableLiveData<Result<Post>> observalbleResult = new MutableLiveData<>();
+        apk.GetPost2(result -> {
+            if(result instanceof Result.Success){
+                observalbleResult.postValue(result);
+            }
+        });
+        return observalbleResult;
     }
 }
