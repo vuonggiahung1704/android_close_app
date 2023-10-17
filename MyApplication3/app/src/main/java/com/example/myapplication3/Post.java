@@ -1,26 +1,13 @@
-package com.example.myapplication2;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.example.myapplication3;
 
 import java.util.List;
 
 public final class Post {
-    @SerializedName("title")
-    @Expose
     private String title;
-    @SerializedName("body")
-    @Expose
     private String body;
-    @SerializedName("userId")
-    @Expose
     private Integer userId;
-    @SerializedName("id")
-    @Expose
     private Integer id;
 
-    @SerializedName("sp2")
-    @Expose
     private List<String> sp2;
 
     public Post(String title, String body, Integer userId, Integer id, List<String> sp2) {

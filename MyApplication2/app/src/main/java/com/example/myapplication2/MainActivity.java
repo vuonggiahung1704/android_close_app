@@ -3,6 +3,8 @@ package com.example.myapplication2;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,8 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.myapplication2.model.Result;
+import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -39,9 +44,32 @@ public class MainActivity extends AppCompatActivity {
         final EditText bodyEt = (EditText) findViewById(R.id.et_body);
         Button submitBtn = (Button) findViewById(R.id.btn_submit);
         Button getBtn = (Button) findViewById(R.id.btn_get);
+        Button backBtn = (Button) findViewById(R.id.btn_back);
         mResponseTv = (TextView) findViewById(R.id.tv_response);
 
         mAPIService = ApiUtils.getAPIService();
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<String> sp2 = new ArrayList<String>();
+                sp2.add("1");
+                sp2.add("2");
+                sp2.add("3");
+                Post post  = new Post("title","body",1,1,sp2);
+                Gson gson = new Gson();
+                String json = gson.toJson(post);
+
+                Intent intent = getPackageManager().getLaunchIntentForPackage("com.example.myapplication3");
+                intent.setComponent(new ComponentName("com.example.myapplication3","com.example.myapplication3.MainActivity"));
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                intent.putExtra("KEY",json);
+
+                startActivityForResult(intent,1);
+            }
+        });
+
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

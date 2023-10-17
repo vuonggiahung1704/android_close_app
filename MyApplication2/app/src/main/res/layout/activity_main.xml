@@ -50,6 +50,15 @@
             android:background="@color/design_default_color_on_primary"
             android:textColor="@android:color/white"
             android:text="GET"/>
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_marginTop="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/design_default_color_on_primary"
+            android:textColor="@android:color/white"
+            android:text="BACK"/>
         <TextView
             android:id="@+id/tv_response"
             android:layout_marginTop="35dp"
