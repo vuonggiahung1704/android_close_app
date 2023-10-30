@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,7 +27,9 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     EditText edt3;
+    ProgressBar pg;
 
+    int count = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        EditText edt1 = findViewById(R.id.editTextText1);
 //        EditText edt2 = findViewById(R.id.editTextText2);
-        edt3 = findViewById(R.id.editTextText3);
+//        edt3 = findViewById(R.id.editTextText3);
+        pg = findViewById(R.id.progressBar);
 
 //        IntentFilter intentFilter = new IntentFilter("com.example.LOGOUT");
 //        registerReceiver(new BroadCast(), intentFilter);
@@ -57,11 +61,15 @@ public class MainActivity extends AppCompatActivity {
 //                intent.putExtra("text",edt1.getText().toString());
 //                Intent intent = new Intent(MainActivity.this, DemoActivity.class);
 //                startActivityForResult(intent,1);
-                Intent intent = new Intent();
-                intent.setClassName("com.example.myapplication2","com.example.myapplication2.MainActivity");
-                startActivityForResult(intent,1);
+//                Intent intent = new Intent();
+//                intent.setClassName("com.example.myapplication2","com.example.myapplication2.MainActivity");
+//                startActivityForResult(intent,1);
+                count += + 5;
+                pg.setProgress(count + 5);
             }
         });
+
+
     }
 
     @Override

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:shape="line">
+            <stroke
+                android:width="10dp"
+                android:color="@color/grey"
+                android:dashWidth="10dp"
+                android:dashGap="10dp"
+                />
+        </shape>
+    </item>
+
+    <item
+        android:left="5dp"
+        android:top="5dp"
+        android:bottom="5dp">
+                <clip>
+                    <rotate
+                        android:fromDegrees="0"
+                        android:toDegrees="0">
+                        <shape android:shape="rectangle">
+                            <gradient
+                                android:angle="0"
+                                android:centerColor="#00ff00"
+                                android:endColor="#ff0000"
+                                android:startColor="#0000ff"/>
+                        </shape>
+                    </rotate>
+                </clip>
+    </item>
+
+    <item android:left="10dp">
+        <clip>
+            <shape android:shape="line">
+                <stroke
+                    android:width="10dp"
+                    android:color="@color/white"
+                    android:dashWidth="10dp"
+                    android:dashGap="10dp" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>
