@@ -62,10 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = getPackageManager().getLaunchIntentForPackage("com.example.myapplication3");
                 intent.setComponent(new ComponentName("com.example.myapplication3","com.example.myapplication3.MainActivity"));
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                intent.putExtra("KEY",json);
-
                 startActivityForResult(intent,1);
             }
         });
